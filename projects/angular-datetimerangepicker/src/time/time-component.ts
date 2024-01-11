@@ -17,10 +17,10 @@ dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
 dayjs.extend(customParser);
 @Component({
-  selector: 'timepicker',
+  selector: 'lib-timepicker',
   templateUrl: './time-component.html',
 })
-export class TimePicker implements OnInit, OnChanges {
+export class TimePickerComponent implements OnInit, OnChanges {
   // #region all component inputs
   @Input()
   options: Timepicker = new Timepicker();

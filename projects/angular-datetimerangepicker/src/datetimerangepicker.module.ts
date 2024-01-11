@@ -1,22 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Calendar } from './calendar/calendar-component';
-import { Daterangepicker } from './daterangepicker/daterangepicker.component';
+import { CalendarComponent } from './calendar/calendar-component';
+import { DaterangepickerComponent } from './daterangepicker/daterangepicker.component';
 import { FormatDatePipe } from './format-date-pipe';
-import { ChevronLeft } from './img/chevron-left';
-import { DoubleChevronLeft } from './img/double-chevron-left';
-import { TimePicker } from './time/time-component';
+import { ChevronLeftComponent } from './img/chevron-left';
+import { DoubleChevronLeftComponent } from './img/double-chevron-left';
+import { TimePickerComponent } from './time/time-component';
 @NgModule({
   imports: [FormsModule, CommonModule],
   declarations: [
-    Daterangepicker,
-    Calendar,
-    TimePicker,
+    DaterangepickerComponent,
+    CalendarComponent,
+    TimePickerComponent,
     FormatDatePipe,
-    DoubleChevronLeft,
-    ChevronLeft,
+    DoubleChevronLeftComponent,
+    ChevronLeftComponent,
   ],
-  exports: [Daterangepicker],
+  exports: [DaterangepickerComponent],
 })
 export class DatetimerangepickerModule {}

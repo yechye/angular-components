@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'chevronleft',
+  selector: 'lib-chevronleft',
   template: `
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -24,6 +24,6 @@ import { Component, Input } from '@angular/core';
     </svg>
   `,
 })
-export class ChevronLeft {
+export class ChevronLeftComponent {
   @Input() class: string;
 }

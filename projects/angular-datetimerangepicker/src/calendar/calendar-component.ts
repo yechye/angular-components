@@ -23,10 +23,10 @@ dayjs.extend(isSameOrBefore);
 dayjs.extend(customParser);
 dayjs.extend(localeData);
 @Component({
-  selector: 'calendar',
+  selector: 'lib-calendar',
   templateUrl: './calendar-component.html',
 })
-export class Calendar implements OnChanges {
+export class CalendarComponent implements OnChanges {
   // #region Components inputs
   @Input() month: number;
   @Input() year: number;

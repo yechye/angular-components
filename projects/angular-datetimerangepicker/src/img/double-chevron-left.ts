@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'doublechevronleft',
+  selector: 'lib-doublechevronleft',
   template: `
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -27,6 +27,6 @@ import { Component, Input } from '@angular/core';
     </svg>
   `,
 })
-export class DoubleChevronLeft {
+export class DoubleChevronLeftComponent {
   @Input() class: string;
 }

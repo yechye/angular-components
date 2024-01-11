@@ -24,10 +24,10 @@ dayjs.extend(customParser);
 declare var window: any;
 
 @Component({
-  selector: 'daterangepicker',
+  selector: 'lib-daterangepicker',
   templateUrl: './daterangepicker.component.html',
 })
-export class Daterangepicker implements OnInit, DoCheck, OnChanges {
+export class DaterangepickerComponent implements OnInit, DoCheck, OnChanges {
   // #region Inputs to component
   @Input() options: Options;
   @Input() class: string;
