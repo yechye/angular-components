@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Options } from 'angular-datetimerangepicker/types';
+import { Options } from '../../projects/angular-datetimerangepicker/src/types';
 declare var require: any;
 const dayjs = require('dayjs');
 

@@ -14,5 +14,6 @@ dayjs.extend(isoWeek);
 const arraySupport = require('dayjs/plugin/arraySupport');
 dayjs.extend(arraySupport);
 
+export { DaterangepickerComponent } from './daterangepicker/daterangepicker.component';
 export * from './datetimerangepicker.module';
 export * from './types';

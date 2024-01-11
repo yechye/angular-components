@@ -3,12 +3,12 @@
   <div class="drp-flex drp-column">
     <button type="button" aria-label="Increment hour by 1" class="drp-btn flat up"
       [ngClass]="{'disabled': !isValidToAddHour(1)}" (click)="addHour(1)">
-      <chevronleft></chevronleft>
+      <lib-chevronleft></lib-chevronleft>
     </button>
     <span><b [innerHTML]="getCurrentHour()"></b></span>
     <button type="button" aria-label="Decrement hour by 1" class="drp-btn flat down"
       [ngClass]="{'disabled': !isValidToAddHour(-1)}" (click)="addHour(-1)">
-      <chevronleft></chevronleft>
+      <lib-chevronleft></lib-chevronleft>
     </button>
   </div>
   <sub>
@@ -17,13 +17,13 @@
   <div class="drp-flex drp-column">
     <button type="button" aria-label="increment minute by one step" class="drp-btn flat up"
       [ngClass]="{'disabled': !isValidToAddMinute(options.minuteInterval)}" (click)="addMinute(options.minuteInterval)">
-      <chevronleft></chevronleft>
+      <lib-chevronleft></lib-chevronleft>
     </button>
     <span><b [innerHTML]="getCurrentMinute()" (mouseWheelUp)="addMinute(options.minuteInterval)"></b></span>
     <button type="button" aria-label="decrement minute by one step" class="drp-btn flat down"
       [ngClass]="{'disabled': !isValidToAddMinute(-1 * options.minuteInterval)}"
       (click)="addMinute(-1 * options.minuteInterval)">
-      <chevronleft></chevronleft>
+      <lib-chevronleft></lib-chevronleft>
     </button>
   </div>
   <sub>
@@ -31,11 +31,11 @@
   </sub>
   <div class="drp-flex drp-column ml-2" *ngIf="!options.twentyFourHourFormat">
     <button type="button" class="drp-btn flat up" (click)="toggleAMPM()">
-      <chevronleft></chevronleft>
+      <lib-chevronleft></lib-chevronleft>
     </button>
     <span><b>{{meridiem}}</b></span>
     <button type="button" class="drp-btn flat down" (click)="toggleAMPM()">
-      <chevronleft></chevronleft>
+      <lib-chevronleft></lib-chevronleft>
     </button>
   </div>
 </div>

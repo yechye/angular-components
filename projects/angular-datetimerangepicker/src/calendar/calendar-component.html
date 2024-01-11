@@ -1,20 +1,20 @@
 <div *ngIf="!isTouch" class="drp-flex drp-space-around">
   <button type="button" class="drp-btn flat" (click)="yearSelected(year-1)" title="Previous year"
     aria-label="Previous year" [disabled]="year === minYear">
-    <doublechevronleft></doublechevronleft>
+    <lib-doublechevronleft></lib-doublechevronleft>
   </button>
   <button type="button" class="drp-btn flat" (click)="monthSelected(-1)" title="Previous month"
     aria-label="Previous month" [disabled]="year === minYear && month === minMonth">
-    <chevronleft></chevronleft>
+    <lib-chevronleft></lib-chevronleft>
   </button>
   <label class="mb-0"> {{monthText}} {{year}} </label>
   <button type="button" class="drp-btn flat next" (click)="monthSelected(1)" title="Next month" aria-label="Next month"
     [disabled]="year === maxYear && month === maxMonth">
-    <chevronleft></chevronleft>
+    <lib-chevronleft></lib-chevronleft>
   </button>
   <button type="button" class="drp-btn flat next" (click)="yearSelected(year+1)" title="Next Year"
     aria-label="Next Year" [disabled]="year === maxYear">
-    <doublechevronleft></doublechevronleft>
+    <lib-doublechevronleft></lib-doublechevronleft>
   </button>
 </div>
 <div [ngClass]="{
@@ -47,11 +47,11 @@
     </div>
   </div>
 </div>
-<timepicker *ngIf="timePicker" [options]="timePicker" [selectedFromDate]="selectedFromDate"
+<lib-timepicker *ngIf="timePicker" [options]="timePicker" [selectedFromDate]="selectedFromDate"
   [selectedToDate]="selectedToDate" [minDate]="minDate" [maxDate]="maxDate" [format]="format" [isLeft]="isLeft"
   (timeChanged)="dateSelected($event)">
-</timepicker>
+</lib-timepicker>
 <button type="button" *ngIf="isTouch" (click)="scrollMeOutTop()" class="drp-btn flat next drp-next-calendar-cta"
   title="Set" aria-label="Set">
-  SET <chevronleft></chevronleft>
+  SET <lib-chevronleft></lib-chevronleft>
 </button>
