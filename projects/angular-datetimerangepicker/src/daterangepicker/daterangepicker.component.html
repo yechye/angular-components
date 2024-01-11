@@ -1,5 +1,5 @@
 <div class="drp-wrapper {{derivedOptions.theme}}">
-  <input class="{{class}} drp-input" [attr.placeholder]="derivedOptions.placeholder" type="text" [ngModel]="range"
+  <input class="{{class}} drp-input" [attr.placeholder]="derivedOptions.placeholder" type="text" [ngModel]="range" title="Input Range" placeholder="Enter a range">
     [disabled]="derivedOptions.disabled" [attr.aria-label]="getAriaLabel()" [class.hidden]="derivedOptions.alwaysOpen"
     [attr.required]="derivedOptions.required" [attr.readonly]="derivedOptions.readOnly ? true : null" />
   <div class="drp-flyout {{derivedOptions.position}}" [ngClass]="{
