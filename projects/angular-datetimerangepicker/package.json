@@ -32,10 +32,6 @@
     "luxon": "^3.4.4",
     "tslib": "^2.0.0"
   },
-  "peerDependencies": {
-    "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
-    "@angular/core": "^6.0.0-rc.0 || ^6.0.0"
-  },
   "funding": [
     {
       "type": "Buy me a coffee",

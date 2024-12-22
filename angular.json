@@ -17,7 +17,7 @@
             "outputPath": "dist/angular-components",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills":  ["zone.js"],
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
@@ -58,25 +58,25 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular-components:build"
+            "buildTarget": "angular-components:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "angular-components:build:production"
+              "buildTarget": "angular-components:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-components:build"
+            "buildTarget": "angular-components:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills":  ["zone.js"],
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [
@@ -166,6 +166,7 @@
     }
   },
   "cli": {
+    "analytics": false
   },
   "schematics": {
     "@angular-eslint/schematics:application": {
