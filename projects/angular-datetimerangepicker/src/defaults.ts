@@ -1,40 +1,40 @@
-import dayjs from 'dayjs';
+import { DateTime } from 'luxon';
 
 const defaults = {
   ranges: [
     {
       name: 'Today',
       value: {
-        start: dayjs().startOf('day'),
-        end: dayjs().endOf('day'),
+        start: DateTime.now().startOf('day'),
+        end: DateTime.now().endOf('day'),
       },
     },
     {
       name: 'Yesterday',
       value: {
-        start: dayjs().subtract(1, 'day').startOf('day'),
-        end: dayjs().subtract(1, 'day').endOf('day'),
+        start: DateTime.now().minus({ days: 1 }).startOf('day'),
+        end: DateTime.now().minus({ days: 1 }).endOf('day'),
       },
     },
     {
       name: 'This week',
       value: {
-        start: dayjs().startOf('week'),
-        end: dayjs().endOf('week'),
+        start: DateTime.now().startOf('week'),
+        end: DateTime.now().endOf('week'),
       },
     },
     {
       name: 'This month',
       value: {
-        start: dayjs().startOf('month'),
-        end: dayjs().endOf('month'),
+        start: DateTime.now().startOf('month'),
+        end: DateTime.now().endOf('month'),
       },
     },
     {
       name: 'Last Month',
       value: {
-        start: dayjs().subtract(1, 'month').startOf('month'),
-        end: dayjs().subtract(1, 'month').endOf('month'),
+        start: DateTime.now().minus({ month: 1 }).startOf('month'),
+        end: DateTime.now().minus({ month: 1 }).endOf('month'),
       },
     },
   ],

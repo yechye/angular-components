@@ -1,14 +1,14 @@
-import { Dayjs } from 'dayjs';
+import { DateTime } from 'luxon';
 
 export type Theme = 'dark' | 'light';
 export type Position = 'left' | 'right' | 'center';
 export class DateRange {
-  start: Dayjs;
-  end: Dayjs;
+  start: DateTime;
+  end: DateTime;
 }
 
 export class DateChanged {
-  day: Dayjs;
+  day: DateTime;
   isLeft: boolean;
 }
 
@@ -41,10 +41,10 @@ export class YearsGrid {
 }
 
 export class Options {
-  startDate?: Dayjs = null;
-  endDate?: Dayjs = null;
-  minDate?: Dayjs = null;
-  maxDate?: Dayjs = null;
+  startDate?: DateTime = null;
+  endDate?: DateTime = null;
+  minDate?: DateTime = null;
+  maxDate?: DateTime = null;
   format?: string = 'YYYY-MM-DD';
   displayFormat?: string;
   inactiveBeforeStart?: boolean = false;
@@ -68,5 +68,5 @@ export class Options {
   readOnly?: boolean = false;
   disableWeekEnds: boolean = false;
   disabledDays: number[] = null;
-  disabledDates: Dayjs[] = null;
+  disabledDates: DateTime[] = null;
 }

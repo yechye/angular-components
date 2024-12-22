@@ -6,6 +6,6 @@
   },
   "allowedNonPeerDependencies": [
     "calendarize",
-    "dayjs"
+    "luxon"
   ]
 }

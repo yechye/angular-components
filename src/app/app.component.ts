@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Options } from '../../projects/angular-datetimerangepicker/src/types';
-declare var require: any;
-const dayjs = require('dayjs');
+import { DateTime } from 'luxon'; 
 
 @Component({
   selector: 'app-root',
@@ -10,7 +9,7 @@ const dayjs = require('dayjs');
 })
 export class AppComponent implements OnInit {
   isTimePickerEnabled = true;
-  format = 'DD.MM.YYYY HH:mm';
+  format = 'dd.MM.yyyy HH:mm';
   themeObject = {
     '--drp-bg': null,
     '--drp-fg': null,
@@ -44,13 +43,13 @@ export class AppComponent implements OnInit {
   maxDateConfigDatePickerOptions: any = {
     ...this.initialConfigDatePickerOptions,
   };
-  daterangepickerOptions: any = {
-    startDate: dayjs(),
-    endDate: dayjs().add(10, 'days'),
-    minDate: dayjs().add(-12, 'months'),
-    maxDate: dayjs().add(12, 'months'),
+  daterangepickerOptions: Options = {
+    startDate: DateTime.now(),
+    endDate: DateTime.now().plus({days: 10}),
+    minDate: DateTime.now().minus({ months: 12 }),
+    maxDate: DateTime.now().plus( { months: 12 }),
     format: this.format,
-    displayFormat: 'DD.MM.YYYY hh:mm a',
+    displayFormat: 'dd.MM.yyyy hh:mm a',
     autoApply: true,
     theme: 'dark',
     weekStartsOn: 0,
@@ -64,11 +63,11 @@ export class AppComponent implements OnInit {
     disableWeekEnds: true,
     disabledDays: [3],
     disabledDates: [
-      dayjs().add(10, 'day'),
-      dayjs().add(11, 'day'),
-      dayjs().add(12, 'day'),
-      dayjs().add(13, 'day'),
-      dayjs().add(14, 'day'),
+      DateTime.now().plus({ days: 10 }),
+      DateTime.now().plus({ days: 11 }),
+      DateTime.now().plus({ days: 12 }),
+      DateTime.now().plus({ days: 13 }),
+      DateTime.now().plus({ days: 14 }),
     ],
     disableBeforeStart: false,
     inactiveBeforeStart: true,
@@ -84,43 +83,43 @@ export class AppComponent implements OnInit {
       {
         name: 'Day After tomorrow',
         value: {
-          start: dayjs().add(2, 'days'),
-          end: dayjs().add(2, 'days'),
+          start: DateTime.now().plus({ days: 2}),
+          end: DateTime.now().plus({ days: 2 }),
         },
       },
       {
         name: 'Today',
         value: {
-          start: dayjs(),
-          end: dayjs(),
+          start: DateTime.now().startOf('day'),
+          end: DateTime.now().endOf('day'),
         },
       },
       {
         name: 'Tomorrow',
         value: {
-          start: dayjs().add(1, 'days'),
-          end: dayjs().add(1, 'days'),
+          start: DateTime.now().plus({ days: 1 }).startOf('day'),
+          end: DateTime.now().plus({ days: 1 }).endOf('day'),
         },
       },
       {
         name: 'This week',
         value: {
-          start: dayjs(),
-          end: dayjs().add(7, 'days'),
+          start: DateTime.now().startOf('week'),
+          end: DateTime.now().endOf('week'),
         },
       },
       {
         name: 'This month',
         value: {
-          start: dayjs(),
-          end: dayjs().add(1, 'month'),
+          start: DateTime.now().startOf('month'),
+          end: DateTime.now().endOf('month'),
         },
       },
       {
         name: 'Next 2 months',
         value: {
-          start: dayjs(),
-          end: dayjs().add(2, 'month'),
+          start: DateTime.now(),
+          end: DateTime.now().plus({ months: 2 }),
         },
       },
     ],
@@ -171,11 +170,11 @@ export class AppComponent implements OnInit {
       e.target.value
     );
   }
-  optionChanged(propValue, event) {
+  optionChanged(propValue: string, event: { start: DateTime; target: { checked: any; }; }) {
     this.daterangepickerOptions = {
       ...this.daterangepickerOptions,
       [propValue]: event.start
-        ? event.start.format(this.format)
+        ? event.start.toFormat(this.format)
         : event.target.checked,
     };
     if (['minDate', 'maxDate'].includes(propValue)) {

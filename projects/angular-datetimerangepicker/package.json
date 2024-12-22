@@ -1,5 +1,5 @@
 {
-  "name": "angular-datetimerangepicker",
+  "name": "@agrint/angular-datetimerangepicker",
   "version": "2.4.6",
   "repository": {
     "type": "git",
@@ -29,7 +29,7 @@
   "homepage": "https://github.com/technikhil314/angular-components/tree/master/projects/angular-datetimerangepicker",
   "dependencies": {
     "calendarize": "^1.1.1",
-    "dayjs": "^1.9.3",
+    "luxon": "^3.4.4",
     "tslib": "^2.0.0"
   },
   "peerDependencies": {

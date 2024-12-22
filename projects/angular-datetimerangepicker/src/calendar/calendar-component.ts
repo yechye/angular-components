@@ -1,27 +1,22 @@
 import {
   Component,
   EventEmitter,
+  Inject,
   Input,
+  LOCALE_ID,
   OnChanges,
   Output,
 } from '@angular/core';
 import calendarize from 'calendarize';
-import dayjs, { Dayjs } from 'dayjs';
-import customParser from 'dayjs/plugin/customParseFormat';
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import localeData from 'dayjs/plugin/localeData';
+
 import {
   DateChanged,
   MonthNameValue,
   Timepicker,
   YearMonthChanged,
 } from '../types';
+import { DateTime, Info } from 'luxon';
 
-dayjs.extend(isSameOrAfter);
-dayjs.extend(isSameOrBefore);
-dayjs.extend(customParser);
-dayjs.extend(localeData);
 @Component({
   selector: 'lib-calendar',
   templateUrl: './calendar-component.html',
@@ -30,19 +25,19 @@ export class CalendarComponent implements OnChanges {
   // #region Components inputs
   @Input() month: number;
   @Input() year: number;
-  @Input() selectedFromDate: Dayjs;
-  @Input() selectedToDate: Dayjs;
+  @Input() selectedFromDate: DateTime;
+  @Input() selectedToDate: DateTime;
   @Input() isLeft: boolean;
   @Input() format: string;
-  @Input() minDate: Dayjs;
-  @Input() maxDate: Dayjs;
+  @Input() minDate: DateTime;
+  @Input() maxDate: DateTime;
   @Input() inactiveBeforeStart: boolean;
   @Input() disableBeforeStart: boolean;
   @Input() timePicker: Timepicker;
   @Input() singleCalendar: boolean;
   @Input() weekStartsOn: number;
   @Input() addTouchSupport: boolean;
-  @Input() disabledDates: Dayjs[];
+  @Input() disabledDates: DateTime[];
   @Input() disabledDays: number[];
   @Input() disableWeekEnds: boolean;
   // #endregion
@@ -61,19 +56,19 @@ export class CalendarComponent implements OnChanges {
 
   // #region all component variables
   isTouch = false;
-  weekList: Dayjs[][];
+  weekList: DateTime[][];
   weekDays: string[];
   monthsList: MonthNameValue[] = [];
   yearsList: number[] = [];
   weekEndOn: number[];
   // #endregion
 
+  constructor(@Inject(LOCALE_ID) public locale: string) { }
   // #region setters and getters
   get monthText() {
-    return dayjs()
-      .set('year', +this.year)
-      .set('month', +this.month)
-      .format('MMM');
+    return DateTime.now()
+      .set({ month: this.month, year: this.year })
+      .toFormat('LLL');
   }
   // #endregion
 
@@ -90,59 +85,61 @@ export class CalendarComponent implements OnChanges {
   // #endregion
 
   // #region view manipulations and condition providers
-  getNextMonthFirstWeek(): Dayjs[] {
-    const thisMonthStartDate = dayjs()
-      .set('year', +this.year)
-      .set('month', +this.month)
+  getNextMonthFirstWeek(): DateTime[] {
+    const thisMonthStartDate = DateTime.now()
+      .set({ year: this.year, month: this.month })
       .startOf('month');
     const nextMonthStartDate = thisMonthStartDate
-      .add(1, 'month')
+      .plus({ month: 1 })
       .startOf('month');
     const year = nextMonthStartDate.get('year');
     const month = nextMonthStartDate.get('month');
-    return calendarize(nextMonthStartDate.toDate(), this.weekStartsOn)
+    return calendarize(nextMonthStartDate.toJSDate(), this.weekStartsOn)
       .shift()
       .filter(Boolean)
       .map((day) => {
-        return dayjs()
-          .set('year', year)
-          .set('month', month)
-          .set('date', day)
-          .set('hour', 0)
-          .set('minute', 0)
-          .set('second', 0)
-          .set('millisecond', 0);
+        return DateTime.now()
+          .set({
+            year,
+            month,
+            day,
+            hour: 0,
+            minute: 0,
+            second: 0,
+            millisecond: 0,
+          });
       });
   }
-  getPreviousMonthNthLastWeek(nthLastCount): Dayjs[] {
-    const thisMonthStartDate = dayjs()
-      .set('year', +this.year)
-      .set('month', +this.month)
+  getPreviousMonthNthLastWeek(nthLastCount): DateTime[] {
+    const thisMonthStartDate = DateTime.now()
+      .set({ year: this.year, month: this.month })
       .startOf('month');
     const previousMonthStartDate = thisMonthStartDate
-      .subtract(1, 'month')
+      .minus({ month: 1 })
       .startOf('month');
     const year = previousMonthStartDate.get('year');
     const month = previousMonthStartDate.get('month');
-    return calendarize(previousMonthStartDate.toDate(), this.weekStartsOn)
+    return calendarize(previousMonthStartDate.toJSDate(), this.weekStartsOn)
       .slice(-nthLastCount)[0]
       .filter(Boolean)
       .map((day) => {
-        return dayjs()
-          .set('year', year)
-          .set('month', month)
-          .set('date', day)
-          .set('hour', 0)
-          .set('minute', 0)
-          .set('second', 0)
-          .set('millisecond', 0);
+        return DateTime.now()
+          .set({
+            year,
+            month,
+            day,
+            hour: 0,
+            minute: 0,
+            second: 0,
+            millisecond: 0,
+          });
       });
   }
   createTouchCalendarGridData(): void {
-    const monthsList = dayjs.months();
+    const monthsList = Info.months('short', { locale: this.locale });
     this.yearsList = [];
     this.monthsList = [];
-    for (let i = 1900; i <= +dayjs().add(100, 'year').get('year'); i++) {
+    for (let i = 1900; i <= +DateTime.now().plus({ year: 100 }).get('year'); i++) {
       if (i < this.minYear || i > this.maxYear) {
         continue;
       }
@@ -174,28 +171,29 @@ export class CalendarComponent implements OnChanges {
     let month = null;
     this.setWeekDays();
     this.setWeekEnd();
-    const thisMonthStartDate = dayjs()
-      .set('year', +this.year)
-      .set('month', +this.month)
+    const thisMonthStartDate = DateTime.now()
+      .set({ year: this.year, month: this.month })
       .startOf('month');
     year = thisMonthStartDate.get('year');
     month = thisMonthStartDate.get('month');
     const thisMonthWeekList = calendarize(
-      thisMonthStartDate.toDate(),
+      thisMonthStartDate.toJSDate(),
       this.weekStartsOn
     ).map((week) => {
       return week.filter(Boolean).map((day) => {
         if (day === 0) {
           return null;
         }
-        return dayjs()
-          .set('year', year)
-          .set('month', month)
-          .set('date', day)
-          .set('hour', 0)
-          .set('minute', 0)
-          .set('second', 0)
-          .set('millisecond', 0);
+        return DateTime.now()
+          .set({
+            year,
+            month,
+            day,
+            hour: 0,
+            minute: 0,
+            second: 0,
+            millisecond: 0,
+          });
       });
     });
     // if this months first week has less than 7 days then take previous month's last week and merge them
@@ -226,8 +224,7 @@ export class CalendarComponent implements OnChanges {
     this.weekEndOn = [this.weekStartsOn, this.weekStartsOn + 6];
   }
   setWeekDays() {
-    let weekDays: string[] = dayjs
-      .weekdaysShort()
+    let weekDays: string[] = Info.weekdays('short', { locale: this.locale })
       .map((x) => x.replace(/[a-zA-Z]{1}$/, ''));
     weekDays = [
       ...weekDays.slice(this.weekStartsOn, 7),
@@ -235,55 +232,59 @@ export class CalendarComponent implements OnChanges {
     ];
     this.weekDays = weekDays;
   }
-  isDisabled(day: Dayjs) {
+  isDisabled(day: DateTime) {
     if (this.disableWeekEnds && this.weekEndOn.includes(day.get('day'))) {
+      console.log('disabled by disableWeekEnds', day.get('day'));
       return true;
     }
     if (this.disabledDays && this.disabledDays.includes(day.get('day'))) {
+      console.log('disabled by disabledDays', day.get('day'));
       return true;
     }
     if (
       this.disabledDates &&
-      this.disabledDates.find((x) => x.isSame(day, 'date'))
+      this.disabledDates.find((x) => x.get('day') === day.get('day'))
     ) {
+      console.log('disabled by disabledDates', day.get('day'));
       return true;
     }
     if (this.disableBeforeStart && !this.isLeft) {
-      return day.isBefore(this.selectedFromDate);
+      console.log('disabled by disableBeforeStart', day.get('day'));
+      return day < this.selectedFromDate;
     }
-    return day.isBefore(this.minDate) || day.isAfter(this.maxDate);
+    return (this.minDate && day < this.minDate) || (this.maxDate && day > this.maxDate);
   }
-  isDateAvailable(day: Dayjs) {
+  isDateAvailable(day: DateTime) {
     if (day.get('month') !== this.month) {
       return false;
     }
     if (
       !this.singleCalendar &&
       this.inactiveBeforeStart &&
-      day.isBefore(this.selectedFromDate, 'date')
+      day < this.selectedFromDate
     ) {
       return false;
     }
     return true;
   }
-  isSelectedDate(day) {
+  isSelectedDate(day: DateTime) {
     if (
       day.get('month') === this.month &&
-      day.isSame(this.selectedFromDate, 'date')
+      day === this.selectedFromDate?.startOf('day')
     ) {
       return true;
     }
     if (
       !this.singleCalendar &&
       day.get('month') === this.month &&
-      day.isSameOrAfter(this.selectedFromDate, 'date') &&
-      day.isSameOrBefore(this.selectedToDate, 'date')
+      day >= this.selectedFromDate?.startOf('day') &&
+      day <= this.selectedToDate?.startOf('day')
     ) {
       return true;
     }
   }
-  getFormattedDate(day) {
-    return day.format(this.format);
+  getFormattedDate(day: DateTime) {
+    return day.toFormat(this.format);
   }
   // #endregion
 
